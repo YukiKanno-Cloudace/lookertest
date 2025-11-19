@@ -132,6 +132,23 @@ view: order_items {
     order_by_field: status_order
   }
 
+  # ===== 第4章で追加: 日本語ステータス =====
+
+  dimension: status_ja {
+    type: string
+    sql: CASE
+      WHEN ${TABLE}.status = 'Processing' THEN '処理中'
+      WHEN ${TABLE}.status = 'Shipped' THEN '発送済み'
+      WHEN ${TABLE}.status = 'Cancelled' THEN 'キャンセル'
+      WHEN ${TABLE}.status = 'Complete' THEN '完了'
+      WHEN ${TABLE}.status = 'Returned' THEN '返品'
+      ELSE 'その他'
+    END ;;
+    label: "注文ステータス（日本語）"
+    description: "注文商品のステータスを日本語で表示"
+    order_by_field: status_order
+  }
+
   # ===== 第2章で追加: ソート順制御用dimension =====
 
   dimension: status_order {
@@ -205,4 +222,3 @@ view: order_items {
     value_format: "0.00%"
   }
 }
-
